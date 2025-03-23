@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MATI Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+        }
+        
+        .notification-banner {
+            background-color: #d1ecf1;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .notification-text {
+            color: #0c5460;
+            font-size: 14px;
+        }
+        
+        .notification-button {
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .header {
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .language-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .dropdown-icon {
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        
+        .main-nav {
+            background-color: #ffdd00;
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+            position: sticky;
+            top: 60px;
+            z-index: 99;
+        }
+        
+        .main-nav-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .content {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .search-bar {
+            display: flex;
+            margin: 20px 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            font-size: 14px;
+        }
+        
+        .search-button {
+            background-color: #f8f9fa;
+            border: 1px solid #ccc;
+            border-left: none;
+            padding: 0 15px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .card-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .card-description {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .solicitud-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .solicitud-icon {
+            margin-right: 10px;
+            color: #555;
+        }
+        
+        .solicitud-text {
+            flex: 1;
+        }
+        
+        .solicitud-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .solicitud-description {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .favorite-button {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .quick-links {
+            margin-bottom: 20px;
+        }
+        
+        .quick-link-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .quick-link-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .quick-link-description {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .active-items {
+            margin-top: 20px;
+        }
+        
+        .active-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .active-item-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .active-item-text {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .active-item-number {
+            background-color: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        /* Ticket form styles */
+        .ticket-form {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-height: 100px;
+        }
+        
+        .form-button {
+            background-color: #ffdd00;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .form-button:hover {
+            background-color: #e6c700;
+        }
+        
+        .back-button {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .back-button:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Banner -->
+    <div class="notification-banner">
+        <div class="notification-text">¡Recuerda! Mesa MATI se pondrá en contacto contigo desde el número 0985592228. Guárdalo como MATI Phone.</div>
+        <button class="notification-button">¡Autogestionate! Utiliza Mati Bot.</button>
+    </div>
+    
+    <!-- Header -->
+    <header class="header">
+        <img src="Assetes/Images/logo.jpg" alt="Banco Pichincha" class="logo">
+        <div class="nav-links">
+            <a href="#">Mis tareas</a>
+            <a href="#">Mis solicitudes</a>
+            <a href="#">Mis favoritos</a>
+        </div>
+        <div class="language-selector">
+            <button class="language-button">User</button>
+            <span class="dropdown-icon">▼</span>
+            <a>Designed by EB</a>
+        </div>
+    </header>
+    
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+        <div class="main-nav-item">Administrativo <span class="dropdown-icon">▼</span></div>
+        <div class="main-nav-item">Operaciones <span class="dropdown-icon">▼</span></div>
+        <div class="main-nav-item">Seguridad <span class="dropdown-icon">▼</span></div>
+        <div class="main-nav-item">TI <span class="dropdown-icon">▼</span></div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="content" id="main-content">
+        <div class="left-column">
+            <div class="card">
+                <h2 class="section-title">¿Cómo podemos ayudarte?</h2>
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Búsqueda">
+                    <button class="search-button">🔍</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="section-title">Recomendado para usted</h2>
+                <div class="solicitud-container">
+                    <div class="solicitud-card">
+                        <div class="solicitud-icon">📝</div>
+                        <div class="solicitud-text">
+                            <div class="solicitud-title">Transacciones Restringidas</div>
+                            <div class="solicitud-description">Transacciones Restringidas</div>
+                        </div>
+                        <button class="favorite-button">♡</button>
+                    </div>
+                    
+                    <div class="solicitud-card">
+                        <div class="solicitud-icon">📝</div>
+                        <div class="solicitud-text">
+                            <div class="solicitud-title">Eliminación o Actualización información clientes</div>
+                            <div class="solicitud-description">Eliminación o Actualización información clientes</div>
+                        </div>
+                        <button class="favorite-button">♡</button>
+                    </div>
+                    
+                    <div class="solicitud-card">
+                        <div class="solicitud-icon">📝</div>
+                        <div class="solicitud-text">
+                            <div class="solicitud-title">Reseteo o Desbloqueo</div>
+                            <div class="solicitud-description">Atención de reseteo o desbloqueo</div>
+                        </div>
+                        <button class="favorite-button">♡</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="section-title">Temas populares</h2>
+                <div class="card-grid">
+                    <div class="card-item" onclick="showTicketForm()">
+                        <div class="card-icon">👤</div>
+                        <div class="card-title">Usuarios</div>
+                    </div>
+                    
+                    <div class="card-item" onclick="showTicketForm()">
+                        <div class="card-icon">🖥️</div>
+                        <div class="card-title">Soporte Aplicaciones</div>
+                    </div>
+                    
+                    <div class="card-item" onclick="showMoreCards()">
+                        <div class="card-icon">⚙️</div>
+                        <div class="card-title">Gestión de plataformas</div>
+                    </div>
+                    
+                    <div class="card-item" onclick="showTicketForm()">
+                        <div class="card-icon">💰</div>
+                        <div class="card-title">Convenios Cash Management</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-column">
+            <div class="card quick-links">
+                <h2 class="section-title">Enlaces rápidos</h2>
+                
+                <div class="quick-link-item" onclick="window.location.href='categorias-incidentes.html'">
+                    <div class="quick-link-title">Crear Incidente</div>
+                    <div class="quick-link-description">Registre su incidente o falla a reportar</div>
+                </div>
+                
+                <div class="quick-link-item">
+                    <div class="quick-link-title">Base de conocimientos</div>
+                    <div class="quick-link-description">Consulta los artículos de conocimiento</div>
+                </div>
+            </div>
+            
+            <div class="card active-items">
+                <h2 class="section-title">Mis elementos activos</h2>
+                
+                <div class="active-item">
+                    <div class="active-item-icon">T</div>
+                    <div class="active-item-text">Tareas</div>
+                    <div class="active-item-number">0</div>
+                </div>
+                
+                <div class="active-item">
+                    <div class="active-item-icon">S</div>
+                    <div class="active-item-text">Solicitudes</div>
+                    <div class="active-item-number">0</div>
+                </div>
+                
+                <div class="active-item">
+                    <div class="active-item-icon">E</div>
+                    <div class="active-item-text">Encuestas</div>
+                    <div class="active-item-number">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- More Cards Screen (hidden initially) -->
+    <div id="more-cards-screen" style="display: none;" class="content">
+        <div class="card" style="width: 100%;">
+            <button class="back-button" onclick="goBack()">← Volver</button>
+            <h2 class="section-title">Gestión de plataformas - Categorías</h2>
+            <div class="card-grid">
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-title">Mantenimiento</div>
+                </div>
+                
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">🔄</div>
+                    <div class="card-title">Actualización</div>
+                </div>
+                
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Monitoreo</div>
+                </div>
+                
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title">Rendimiento</div>
+                </div>
+                
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-title">Seguridad</div>
+                </div>
+                
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">💾</div>
+                    <div class="card-title">Respaldo</div>
+                </div>
+                
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">🔌</div>
+                    <div class="card-title">Integración</div>
+                </div>
+                
+                <div class="card-item" onclick="showTicketForm()">
+                    <div class="card-icon">📱</div>
+                    <div class="card-title">Aplicaciones</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ticket Form (hidden initially) -->
+    <div id="ticket-form" style="display: none;" class="content">
+        <div class="card" style="width: 100%;">
+            <button class="back-button" onclick="goBack()">← Volver</button>
+            <h2 class="section-title">Formulario de Solicitud de Soporte</h2>
+            
+            <form class="ticket-form" style="display: block;">
+                <div class="form-group">
+                    <label class="form-label">Título</label>
+                    <input type="text" class="form-input" placeholder="Título de la solicitud">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Categoría</label>
+                    <select class="form-input">
+                        <option>Seleccione una categoría</option>
+                        <option>Usuarios</option>
+                        <option>Soporte Aplicaciones</option>
+                        <option>Gestión de plataformas</option>
+                        <option>Convenios Cash Management</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Prioridad</label>
+                    <select class="form-input">
+                        <option>Baja</option>
+                        <option>Media</option>
+                        <option>Alta</option>
+                        <option>Crítica</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-textarea" placeholder="Describa detalladamente su solicitud o incidente"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Adjuntar archivo</label>
+                    <input type="file" class="form-input">
+                </div>
+                
+                <button type="submit" class="form-button">Enviar Solicitud</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Function to show more cards screen
+        function showMoreCards() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('more-cards-screen').style.display = 'grid';
+            document.getElementById('ticket-form').style.display = 'none';
+        }
+        
+        // Function to show ticket form
+        function showTicketForm() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('more-cards-screen').style.display = 'none';
+            document.getElementById('ticket-form').style.display = 'grid';
+        }
+        
+        // Function to go back to main content
+        function goBack() {
+            document.getElementById('main-content').style.display = 'grid';
+            document.getElementById('more-cards-screen').style.display = 'none';
+            document.getElementById('ticket-form').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
